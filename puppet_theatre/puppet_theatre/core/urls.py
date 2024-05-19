@@ -1,7 +1,7 @@
 from django.urls import path
 
-from puppet_theatre.core.views import home
+from puppet_theatre.core import views
 
 urlpatterns = [
-    path('', home, name='home')
+    path('', views.home, name='home'),
 ]

@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/367278d2a4.css">
+    {% comment %} <link rel="icon" type="image/jpeg" sizes="32x32" href="{% static 'media/logos/hand-puppet-show-kids.jpg' %}"> {% endcomment %}
+
     <title>Art Puppet World</title>
     <style>
-        /* Header styles */
         .header {
             display: flex;
             justify-content: space-between;
@@ -17,7 +19,7 @@
         }
         
         .logo {
-            max-width: 150px; /* Adjust as needed */
+            max-width: 150px; 
         }
         
         .header-buttons {
@@ -27,39 +29,48 @@
         
         .header-buttons button {
             padding: 10px 20px;
-            background-color: #ff0000; /* Changed color to YouTube red */
+            background-color: #ff0000; 
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         
-        /* Footer styles */
         .footer {
             text-align: center;
             padding: 20px;
             background-color: #f0f0f0;
         }
         
-        /* Text color styles */
         .blue-text {
-            color: #007bff; /* Changed blue color to red */
+            color: #007bff; 
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
-        <div class="logo">
-            <img class="logo-img" src="{% static 'media/logos/hand-puppet-show-kids.jpg' %}" alt="Art Puppet World Logo" style="max-width: 50px; height: 50px;">
-        </div>
-        <div class="header-buttons">
-            <button>Login</button>
-            <button>Register</button>
-        </div>
+        <a class="navbar-brand" href="{% url 'home' %}">
+            <div class="logo">
+                <img class="logo-img" src="{% static 'media/logos/hand-puppet-show-kids.jpg' %}" alt="Art Puppet World Logo" style="max-width: 50px; height: 50px;">
+            </div>
+        </a>
+        {% if request.user.is_authenticated %}
+            <li class="dropdown-item">
+                <form action="{% url 'account:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger w-100">
+                        <i class="fa-light fa-arrow-right-from-bracket fa-xl"></i>
+                    </button>
+                </form>
+            </li>
+        {% else %}
+            <div class="header-buttons">
+                <a href="{% url 'account:login' %}" class="btn btn-primary">Log in</a>
+                <a href="{% url 'account:register' %}" class="btn btn-secondary">Register</a>
+            </div>
+        {% endif %}
     </header>
 
-    <!-- Your website content goes here -->
-
+    <h2>Current user: {{ request.user }}</h2>
 </body>
 </html>

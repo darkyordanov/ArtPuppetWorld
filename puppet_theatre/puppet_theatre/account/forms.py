@@ -1,15 +1,13 @@
-# account/forms.py
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit
 from django.contrib.auth.forms import AuthenticationForm
-
-
-from .models import AccountUser
+from puppet_theatre.account.models import AccountUser
 
 
 class AccountRegisterForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
+    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm Password')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -22,6 +20,7 @@ class AccountRegisterForm(forms.ModelForm):
             Field('first_name', placeholder='First Name'),
             Field('last_name', placeholder='Last Name'),
             Field('password', placeholder='Password'),
+            Field('password2', placeholder='Confirm Password'),
             ButtonHolder(
                 Submit('submit', 'Register', css_class='btn btn-primary')
             )
@@ -29,7 +28,14 @@ class AccountRegisterForm(forms.ModelForm):
 
     class Meta:
         model = AccountUser
-        fields = ('email', 'first_name', 'last_name', 'password')
+        fields = ('email', 'first_name', 'last_name', 'password', 'password2')
+
+    def clean_password2(self):
+        password = self.cleaned_data.get('password')
+        password2 = self.cleaned_data.get('password2')
+        if password and password2 and password != password2:
+            raise forms.ValidationError("Passwords do not match")
+        return password2
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -40,54 +46,12 @@ class AccountRegisterForm(forms.ModelForm):
 
 
 class CrispyAuthenticationForm(AuthenticationForm):
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_id = 'login-form'
         self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Login'))
         self.helper.layout = Layout(
             Field('username', placeholder='Username'),
-            Field('password', placeholder='Password'),
-            ButtonHolder(
-                Submit('submit', 'Login', css_class='btn btn-primary')
-            )
+            Field('password', placeholder='Password')
         )
-
-
-# from django import forms
-# from django.urls import reverse_lazy
-# from django.utils import timezone
-# from crispy_forms.helper import FormHelper
-# from crispy_forms.layout import Submit
-
-# from .models import AccountUser
-
-
-# class AccountUserForm(forms.ModelForm):
-
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper(self)
-#         self.helper.form_id = 'accountuser-form'
-#         self.helper.attrs = {
-#             'hx-post': reverse_lazy('index'),
-#             'hx-target': '#accountuser-form',
-#             'hx-swap': 'outerHTML'
-#         }
-#         self.helper.add_input(Submit('submit', 'Submit'))
-
-#     date_joined = forms.DateTimeField(
-#         widget=forms.DateTimeInput(attrs={'type': 'datetime-local', 'max': timezone.now().strftime('%Y-%m-%dT%H:%M')})
-#     )
-
-#     class Meta:
-#         model = AccountUser
-#         fields = ('email', 'first_name', 'last_name',)
-
-#     def save(self, commit=True):
-#         user = super().save(commit=False)
-#         if commit:
-#             user.save()
-#         return user

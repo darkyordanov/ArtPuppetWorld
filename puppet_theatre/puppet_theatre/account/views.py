@@ -19,13 +19,6 @@ class RegisterAccountView(views.CreateView):
     template_name = 'account/register.html'
     success_url = reverse_lazy('login')
     
-    
-# class CustomLoginView(auth_views.LoginView):
-#     template_name = 'account/login.html'
-#     success_url = reverse_lazy('home')  
-#     redirect_authenticated_user = True
-#     authentication_form = forms.CrispyAuthenticationForm
-
 
 class CustomLoginView(auth_views.LoginView):
     form_class = forms.CrispyAuthenticationForm
@@ -34,6 +27,7 @@ class CustomLoginView(auth_views.LoginView):
 
 class ProfileView(views.TemplateView):
     template_name = 'account/profile.html'
+    queryset = UserModel.objects.all()
     
     
 class CheckUsernameView(View):
@@ -49,3 +43,11 @@ class CheckSubjectView(View):
         if AccountUser.objects.filter(subject=subject).count() > 3:
             return JsonResponse({'error': 'No spaces available in this subject'}, status=400)
         return JsonResponse({'success': 'Spaces available'})
+
+
+class EditAccountView(views.UpdateView):
+    pass
+
+
+class DeleteAccountView(views.DeleteView):
+    pass

@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block main_content %}
-    <link rel="stylesheet" href="{% static 'css/account/details_account.css' %}">
+    <link rel="stylesheet" href="{% static 'css/account/profile.css' %}">
 
     <body class="p-3 m-0 border-0 bd-example m-0 border-0">
         <main class="container mt-4">
@@ -31,11 +31,11 @@
                                         <i class="fa-light fa-gift fa-2x" style="color: #000000; margin-right: 5px;"></i>
                                         <span class="ml-2" style="font-size: 2rem; color: #000000;">Loyalty</span>
                                     </a> {% endcomment %}
-                                    <hr>
+                                    {% comment %} <hr>
                                     <a class="text-decoration-none btn-profile" href="{% url 'edit account' pk=object.pk %}" id="edit-profile">
                                         <i class="fa-light fa-user-circle fa-2x" style="color: #000000; margin-right: 5px;"></i>
                                         <span class="ml-2" style="font-size: 2rem; color: #000000;">Edit Profile</span>
-                                    </a>
+                                    </a> {% endcomment %}
                                     <hr>
                                 </ul> 
                             </nav>

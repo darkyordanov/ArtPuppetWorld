@@ -1,11 +1,11 @@
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.views import generic as views
+from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth import get_user_model
+from django.contrib.auth.views import PasswordChangeView
 
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
-from django.utils.decorators import method_decorator
 from django.views import View
 
 from puppet_theatre.account import forms
@@ -25,8 +25,12 @@ class CustomLoginView(auth_views.LoginView):
     template_name = 'account/login.html'
     
 
-class ProfileView(views.TemplateView):
-    template_name = 'account/profile.html'
+class CustomPasswordChangeView(auth_mixins.LoginRequiredMixin, PasswordChangeView):
+    pass
+    
+
+class ProfileView(auth_mixins.LoginRequiredMixin, views.TemplateView):
+    template_name = 'account/details_account.html'
     queryset = UserModel.objects.all()
     
     
@@ -45,9 +49,9 @@ class CheckSubjectView(View):
         return JsonResponse({'success': 'Spaces available'})
 
 
-class EditAccountView(views.UpdateView):
-    pass
+class EditAccountView(auth_mixins.LoginRequiredMixin, views.UpdateView):
+    template_name = 'account/edit_account.html'
 
 
-class DeleteAccountView(views.DeleteView):
-    pass
+class DeleteAccountView(auth_mixins.LoginRequiredMixin, views.DeleteView):
+    template_name = 'account/delete_account.html'

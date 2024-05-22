@@ -1,5 +1,5 @@
 from django.urls import include, path
-from django.contrib.auth.views import LogoutView, PasswordChangeView
+from django.contrib.auth.views import LogoutView
 
 from puppet_theatre.account import views
 
@@ -15,8 +15,8 @@ urlpatterns = [
         path('edit/', views.EditAccountView.as_view(), name='edit account'),
         path('delete/', views.DeleteAccountView.as_view(), name='delete account'),
     ])),
-    # path('profile/', views.ProfileView.as_view(), name='profile'),
-    path('password-change/', PasswordChangeView.as_view(), name='password_change'),
+    
+    path('password-change/', views.CustomPasswordChangeView.as_view(), name='password_change'),
 ]
 
 htmx_urlpatterns = [

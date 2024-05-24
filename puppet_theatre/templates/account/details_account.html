@@ -33,7 +33,7 @@
                                     </a> {% endcomment %}
                                     
                                     <hr>
-                                    <a class="text-decoration-none btn-profile" href="{% url 'account:edit_account' pk=object.pk %}" id="edit-profile">
+                                    <a class="text-decoration-none btn-profile" href="{% url 'account:edit_account' pk=request.user.pk %}" id="edit-profile">
                                         <i class="fa-light fa-user-circle fa-2x" style="color: #000000; margin-right: 5px;"></i>
                                         <span class="ml-2" style="font-size: 2rem; color: #000000;">Edit Profile</span>
                                     </a> 

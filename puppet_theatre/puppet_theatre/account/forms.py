@@ -50,19 +50,20 @@ class AccountRegisterForm(forms.ModelForm):
 
 
 class AccountEditForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput(), label='New Password', required=False)
-    password2 = forms.CharField(widget=forms.PasswordInput(), label='Confirm New Password', required=False)
+    email = forms.EmailField(disabled=True, label='Email')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_id = 'edit-form'
         self.helper.form_method = 'post'
+        self.create_layout()
+
+    def create_layout(self):
         self.helper.layout = Layout(
+            Field('email', placeholder='Email'),
             Field('first_name', placeholder='First Name'),
             Field('last_name', placeholder='Last Name'),
-            Field('password', placeholder='New Password', required=False),
-            Field('password2', placeholder='Confirm New Password', required=False),
             ButtonHolder(
                 Submit('submit', 'Save Changes', css_class='btn btn-dark btn-lg btn-block')
             )
@@ -70,20 +71,10 @@ class AccountEditForm(forms.ModelForm):
 
     class Meta:
         model = AccountUser
-        fields = ('first_name', 'last_name', 'password', 'password2')
-
-    def clean_password2(self):
-        password = self.cleaned_data.get('password')
-        password2 = self.cleaned_data.get('password2')
-        if password or password2:
-            if password != password2:
-                raise forms.ValidationError("Passwords do not match")
-        return password2
+        fields = ('email', 'first_name', 'last_name')
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        if self.cleaned_data['password']:
-            user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
         return user

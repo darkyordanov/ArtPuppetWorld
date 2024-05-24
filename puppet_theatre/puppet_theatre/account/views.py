@@ -3,26 +3,23 @@ from django.contrib.auth import views as auth_views
 from django.views import generic as views
 from django.contrib.auth import mixins as auth_mixins
 from django.contrib.auth import get_user_model
-from django.contrib.auth.views import PasswordChangeView
-
+from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.views import View
+from django.contrib.auth.views import PasswordChangeView
 
 from puppet_theatre.account import forms
 
 UserModel = get_user_model()
-
 
 class RegisterAccountView(views.CreateView):
     form_class = forms.AccountRegisterForm
     template_name = 'account/register.html'
     success_url = reverse_lazy('account:login')
     
-
 class CustomLoginView(auth_views.LoginView):
     form_class = forms.CrispyAuthenticationForm
     template_name = 'account/login.html'
-    
     
 class CustomPasswordChangeView(auth_mixins.LoginRequiredMixin, PasswordChangeView):
     template_name = 'account/password_change_form.html'
@@ -33,11 +30,9 @@ class CustomPasswordChangeView(auth_mixins.LoginRequiredMixin, PasswordChangeVie
         update_session_auth_hash(self.request, form.user)  # Keep the user logged in
         return response
     
-
 class ProfileView(auth_mixins.LoginRequiredMixin, views.TemplateView):
     template_name = 'account/details_account.html'
     queryset = UserModel.objects.all()
-    
     
 class CheckUsernameView(View):
     def get(self, request, *args, **kwargs):
@@ -53,21 +48,16 @@ class CheckSubjectView(View):
             return JsonResponse({'error': 'No spaces available in this subject'}, status=400)
         return JsonResponse({'success': 'Spaces available'})
 
-
 class EditAccountView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     template_name = 'account/edit_account.html'
-    query_set = UserModel.objects.all()
+    queryset = UserModel.objects.all()
     form_class = forms.AccountEditForm
     
     def form_valid(self, form):
-        print("Form is valid")
         response = super().form_valid(form)
-        print("User updated successfully")
         return response
 
     def form_invalid(self, form):
-        print("Form is invalid")
-        print(form.errors)
         return super().form_invalid(form)
 
     def get_object(self, queryset=None):
@@ -75,7 +65,7 @@ class EditAccountView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     
     def get_success_url(self):
         return reverse_lazy('account:details_account', kwargs={'pk': self.object.pk})
-
+    
 
 class DeleteAccountView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     template_name = 'account/delete_account.html'

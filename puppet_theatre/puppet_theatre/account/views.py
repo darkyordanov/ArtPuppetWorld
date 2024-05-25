@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.contrib.auth import views as auth_views
 from django.views import generic as views
@@ -7,6 +8,7 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import JsonResponse
 from django.views import View
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib import messages
 
 from puppet_theatre.account import forms
 
@@ -66,6 +68,15 @@ class EditAccountView(auth_mixins.LoginRequiredMixin, views.UpdateView):
     def get_success_url(self):
         return reverse_lazy('account:details_account', kwargs={'pk': self.object.pk})
     
+    
+class DeactivateAccountView(auth_mixins.LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        user.is_active = False
+        user.save()
+        messages.success(request, 'Your profile has been deactivated.')
+        return redirect('account:login')
+
 
 class DeleteAccountView(auth_mixins.LoginRequiredMixin, views.DeleteView):
     template_name = 'account/delete_account.html'

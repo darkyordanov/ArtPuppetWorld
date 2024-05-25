@@ -5,76 +5,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://kit.fontawesome.com/367278d2a4.css">
-    {% comment %} <link rel="icon" type="image/jpeg" sizes="32x32" href="{% static 'media/logos/hand-puppet-show-kids.jpg' %}"> {% endcomment %}
-
     <title>Art Puppet World</title>
     <style>
         .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
             background-color: #f0f0f0;
+            padding: 10px 0;
         }
-        
-        .logo {
-            max-width: 150px; 
+        .navbar-brand img {
+            max-width: 50px;
+            height: 50px;
         }
-        
+        .nav-link {
+            font-size: 1.2rem;
+        }
         .header-buttons {
             display: flex;
             gap: 10px;
         }
-        
-        .header-buttons button {
-            padding: 10px 20px;
-            background-color: #ff0000; 
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #f0f0f0;
-        }
-        
-        .blue-text {
-            color: #007bff; 
+        .header-buttons .btn {
+            font-size: 1rem;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <a class="navbar-brand" href="{% url 'home' %}">
-            <div class="logo">
-                <img class="logo-img" src="{% static 'media/logos/hand-puppet-show-kids.jpg' %}" alt="Art Puppet World Logo" style="max-width: 50px; height: 50px;">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light header">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'media/logos/hand-puppet-show-kids.jpg' %}" alt="Art Puppet World Logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">Начало</a>
+                    </li>
+                    <li class="nav-item">
+                        {% comment %} <a class="nav-link" href="{% url 'puppet_theatre' %}">Куклен театър</a> {% endcomment %}
+                        <a class="nav-link" href="#">Куклен театър</a>
+                    </li>
+                    <li class="nav-item">
+                        {% comment %} <a class="nav-link" href="{% url 'workshop' %}">Работиличка</a> {% endcomment %}
+                        <a class="nav-link" href="#">Работилничка</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    {% if request.user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account:details_account' pk=request.user.pk %}">
+                                <i class="fas fa-user-circle"></i> Profile
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'account:logout' %}" method="post" class="form-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <div class="header-buttons">
+                            <a href="{% url 'account:login' %}" class="btn btn-primary">Log in</a>
+                            <a href="{% url 'account:register' %}" class="btn btn-secondary">Register</a>
+                        </div>
+                    {% endif %}
+                </ul>
             </div>
-        </a>
-        {% if request.user.is_authenticated %}
-            <a class="text-decoration-none btn-profile" href="{% url 'account:edit_account' pk=request.user.pk %}" id="edit-profile">
-                <i class="fa-light fa-user-circle fa-2x" style="color: #000000; margin-right: 5px;"></i>
-                <span class="ml-2" style="font-size: 2rem; color: #000000;">Edit Profile</span>
-            </a> 
-            <li class="dropdown-item">
-                <form action="{% url 'account:logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger w-100">
-                        <i class="fa-light fa-arrow-right-from-bracket me-2"></i>
-                    </button>
-                </form>
-            </li>
-        {% else %}
-            <div class="header-buttons">
-                <a href="{% url 'account:login' %}" class="btn btn-primary">Log in</a>
-                <a href="{% url 'account:register' %}" class="btn btn-secondary">Register</a>
-            </div>
-        {% endif %}
-    </header>
+        </div>
+    </nav>
 
-    <h2>Current user: {{ request.user }}</h2>
+    <div class="container">
+        {% block main_content %}
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

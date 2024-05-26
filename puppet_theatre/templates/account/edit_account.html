@@ -18,7 +18,20 @@
                                         <a href="{% url 'account:change_password' %}" class="btn btn-dark btn-lg btn-block">Change Password</a>
                                     </div>
                                     <a href="{% url 'account:details_account' pk=request.user.pk %}" class="btn btn-secondary btn-lg btn-block">Cancel</a>
-                                </form>                                
+                                </form>
+                                
+                                <!-- Deactivate Account Form -->
+                                <form method="post" action="{% url 'account:deactivate_account' pk=request.user.pk %}" class="mt-3">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-lg btn-block">
+                                        {% if request.user.is_active %}
+                                            Deactivate Account
+                                        {% else %}
+                                            Reactivate Account
+                                        {% endif %}
+                                    </button>
+                                </form>
+                                
                             </div>
                         </div>
                     </div>

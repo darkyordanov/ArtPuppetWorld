@@ -57,21 +57,21 @@
                     {% if request.user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account:details_account' pk=request.user.pk %}">
-                                <i class="fas fa-user-circle"></i> Profile
+                                <i class="fas fa-user-circle"></i> Профил
                             </a>
                         </li>
                         <li class="nav-item">
                             <form action="{% url 'account:logout' %}" method="post" class="form-inline">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-danger">
-                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                    <i class="fas fa-sign-out-alt"></i> Изход
                                 </button>
                             </form>
                         </li>
                     {% else %}
                         <div class="header-buttons">
-                            <a href="{% url 'account:login' %}" class="btn btn-primary">Log in</a>
-                            <a href="{% url 'account:register' %}" class="btn btn-secondary">Register</a>
+                            <a href="{% url 'account:login' %}" class="btn btn-primary">Вход</a>
+                            <a href="{% url 'account:register' %}" class="btn btn-secondary">Регистрация</a>
                         </div>
                     {% endif %}
                 </ul>

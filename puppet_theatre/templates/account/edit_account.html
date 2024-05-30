@@ -10,6 +10,11 @@
                     <div class="row g-0">
                         <div class="col-md-6 col-lg-7 d-flex align-items-center">
                             <div class="card-body p-4 p-lg-5 text-black">
+                                <!-- Back Button -->
+                                <div class="mb-3">
+                                    <a href="{% url 'account:details_account' pk=request.user.pk %}" class="btn btn-light btn-lg">Back</a>
+                                </div>
+
                                 <form method="post" action="{% url 'account:edit_account' pk=request.user.pk %}">
                                     {% csrf_token %}
                                     {% crispy form %}

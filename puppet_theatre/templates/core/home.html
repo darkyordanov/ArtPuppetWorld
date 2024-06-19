@@ -3,40 +3,42 @@
 {% load static %}
 
 {% block main_content %}
-
-<main class="container mt-4">
-    <div class="et_pb_column et_pb_column_4_4 et_pb_column_0  et_pb_css_mix_blend_mode_passthrough et-last-child">
-        <div class="et_pb_text_inner">
-            <h1 style="text-align: center;">Welcome to Bogi's Nails World!</h1>
-        </div>
-        <hr>
-        <div class="et_pb_text_inner">
-            <h2 style="text-align: center;">2018 People’s Choice Award Winner!</h2>
-        </div>
+<main class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 font-weight-bold text-primary">Добре дошли в Art Puppet World!</h1>
+        <p class="lead text-muted">
+            Кукленото изкуство е философия, емпатия към света и вдъхновение! То е тих пътеводител и учител в опознаването на света и човешките ценности. Вярваме, че всяка малка крачка в тази посока е бъдеща голяма крачка за обществото.
+        </p>
+        <hr class="my-4">
     </div>
-    
+
     <section class="artist-info mt-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <img src="static/media/9439685.jpg" alt="Bogi, Nail Artist" class="img-fluid rounded">
-                </div>
-                <div class="col-md-6">
-                    <h3>Meet Bogi, Your Talented Nail Artist!</h3>
-                    <p>With over 10 years of experience in the nail art industry, Bogi brings creativity, precision, and passion to every design. Known for her meticulous attention to detail and innovative techniques, Bogi has established herself as a leading figure. 
-                    <br>
-                    <div class="col-md-6">
-                        <h3>Artist's Certificates</h3>
-                        <p>Bogi is proud to hold multiple certifications and awards in the field of nail artistry. She has completed advanced training programs with renowned nail technicians and educators, earning certifications in nail sculpting, nail artistry, and product knowledge. Bogi's commitment to continuous learning and professional development ensures that she stays at the forefront of industry trends and techniques, providing her clients with the highest quality of service and expertise.</p>
-                    </div>
-                    Bogi is proud to hold multiple certifications and awards, including (list certifications and awards here). Her commitment to continuous learning ensures she stays at the forefront of industry trends and techniques, providing the highest quality service and expertise to her clients.
-                    </p>
-                    <p><strong>See Bogi's stunning nail designs in action!</strong></p>
-                    {% comment %} <a href="{% url 'nails catalog' %}" class="btn btn-primary">Explore Puppet Theatres</a> {% endcomment %}
-                </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <img src="{% static 'media/logos/hand-puppet-show-kids.jpg' %}" alt="Puppet Art" class="img-fluid rounded shadow-lg">
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+                <h3 class="mb-4 text-secondary">Запознайте се със света на куклите, Вашия свят на изкуството!</h3>
+                <p class="text-justify">
+                    С над 10 години опит в индустрията на кукленото изкуство, нашият екип съчетава креативност, прецизност и страст във всяко представление. Ние се гордеем с многобройните сертификати и награди, които сме получили, и се ангажираме с непрекъснато обучение и професионално развитие.
+                </p>
+                <p class="font-weight-bold text-primary">
+                    Вижте изумителните ни куклени представления в действие!
+                </p>
+                <a href="#" class="btn btn-outline-primary btn-lg mt-3">Разгледайте нашите представления</a>
             </div>
         </div>
     </section>
-    
+
+    <section class="certificates mt-5 text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h3 class="mb-4 text-primary">Нашите Сертификати и Награди</h3>
+                <p class="text-muted">
+                    Нашият екип притежава множество сертификати и награди в областта на кукленото изкуство. Ние постоянно се усъвършенстваме и се стремим да предоставяме най-високо качество на представления и обучение на нашата публика.
+                </p>
+            </div>
+        </div>
+    </section>
 </main>
 {% endblock %}

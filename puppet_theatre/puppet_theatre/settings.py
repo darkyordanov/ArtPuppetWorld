@@ -65,7 +65,7 @@ WSGI_APPLICATION = 'puppet_theatre.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "puppet_theatre_db",
+        "NAME": "puppet_theatre_db3",
         "USER": "postgres",
         "PASSWORD": "admin",
         "HOST": "127.0.0.1",
